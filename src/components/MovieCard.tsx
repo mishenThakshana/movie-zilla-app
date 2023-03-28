@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {
   Dimensions,
   StyleSheet,
@@ -17,13 +17,9 @@ import Ionicon from 'react-native-vector-icons/Ionicons';
 import fonts from 'src/constants/fonts';
 import {serializeNumber} from 'src/utils/HelperFunctions';
 import {NavigationHook} from 'src/types/NavigationType';
-import {
-  useFocusEffect,
-  useIsFocused,
-  useNavigation,
-} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import SectionTitle from './SectionTitle';
-import {API_KEY} from 'src/constants/app';
+import {TMDB_API_KEY} from '@env';
 import {http} from 'src/tools/HttpHelper';
 import MoviePoster from './MoviePoster';
 import {useDispatch, useSelector} from 'react-redux';
@@ -49,7 +45,7 @@ const MovieCard = ({item}: MovieCardInterface): JSX.Element => {
     http
       .get('/search/movie', {
         params: {
-          api_key: API_KEY,
+          api_key: TMDB_API_KEY,
           query: item.title.split(' ')[0],
           page: 1,
         },

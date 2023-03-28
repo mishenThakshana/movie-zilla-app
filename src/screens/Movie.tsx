@@ -1,4 +1,4 @@
-import {SafeAreaView, StyleSheet, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {MovieCard} from 'src/components';
 import colors from 'src/constants/colors';
 import {NavigationType} from 'src/types/NavigationType';

@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import {Alert, FlatList, SafeAreaView, StyleSheet} from 'react-native';
 import {MoviePoster, SectionTitle, TopBar, Wrapper} from 'src/components';
-import {API_KEY} from 'src/constants/app';
+import {TMDB_API_KEY} from '@env';
 import {http} from 'src/tools/HttpHelper';
 import {MovieInterface} from 'src/types/MovieType';
 import colors from 'src/constants/colors';
@@ -20,7 +20,7 @@ const Home = () => {
     try {
       const trendingMovies = await http.get('/trending/movie/week', {
         params: {
-          api_key: API_KEY,
+          api_key: TMDB_API_KEY,
           language: 'en-US',
           page: 1,
         },
@@ -30,7 +30,7 @@ const Home = () => {
 
       const actionMovies = await http.get('/discover/movie', {
         params: {
-          api_key: API_KEY,
+          api_key: TMDB_API_KEY,
           language: 'en-US',
           page: 1,
           with_genres: 12,
@@ -41,7 +41,7 @@ const Home = () => {
 
       const horrorMovies = await http.get('/discover/movie', {
         params: {
-          api_key: API_KEY,
+          api_key: TMDB_API_KEY,
           language: 'en-US',
           page: 1,
           with_genres: 27,
@@ -52,7 +52,7 @@ const Home = () => {
 
       const fantasyMovies = await http.get('/discover/movie', {
         params: {
-          api_key: API_KEY,
+          api_key: TMDB_API_KEY,
           language: 'en-US',
           page: 1,
           with_genres: 14,

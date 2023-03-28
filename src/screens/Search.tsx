@@ -7,10 +7,11 @@ import {
   TextInput,
   Alert,
   FlatList,
+  Platform,
 } from 'react-native';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import {MoviePoster, SectionTitle} from 'src/components';
-import {API_KEY} from 'src/constants/app';
+import {TMDB_API_KEY} from '@env';
 import colors from 'src/constants/colors';
 import fonts from 'src/constants/fonts';
 import {http} from 'src/tools/HttpHelper';
@@ -27,7 +28,7 @@ const Search = (): JSX.Element => {
     http
       .get('/search/movie', {
         params: {
-          api_key: API_KEY,
+          api_key: TMDB_API_KEY,
           query: keyword,
           page: 1,
         },
@@ -90,7 +91,7 @@ export const localStyles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
-    padding: 10,
+    padding: Platform.OS === 'ios' ? 10 : 5,
     borderRadius: 25,
   },
   searchInput: {
