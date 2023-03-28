@@ -43,34 +43,38 @@ const Search = (): JSX.Element => {
 
   return (
     <SafeAreaView style={localStyles.container}>
-      <Ionicon
-        onPress={() => navigation.goBack()}
-        name="ios-arrow-back"
-        size={24}
-        color={colors.LIGHT}
-      />
-      <View style={localStyles.searchContainer}>
-        <Ionicon name="ios-search-outline" size={24} color={'#535353'} />
-        <TextInput
-          onChangeText={(value: string) => searchMovie(value)}
-          placeholder="Search movie"
-          placeholderTextColor={'#535353'}
-          style={localStyles.searchInput}
-          selectionColor={colors.PRIMARY}
-          autoCorrect={false}
-          autoCapitalize="none"
-          value={keyword}
+      <View style={{padding: 10}}>
+        <Ionicon
+          onPress={() => navigation.goBack()}
+          name="ios-arrow-back"
+          size={24}
+          color={colors.LIGHT}
+        />
+        <View style={localStyles.searchContainer}>
+          <Ionicon name="ios-search-outline" size={24} color={'#535353'} />
+          <TextInput
+            onChangeText={(value: string) => searchMovie(value)}
+            placeholder="Search movie"
+            placeholderTextColor={'#535353'}
+            style={localStyles.searchInput}
+            selectionColor={colors.PRIMARY}
+            autoCorrect={false}
+            autoCapitalize="none"
+            value={keyword}
+          />
+        </View>
+        <SectionTitle title={`Search results for: ${keyword}`} />
+        <FlatList
+          data={searchResults}
+          renderItem={({item}) => (
+            <MoviePoster style={{margin: 5}} item={item} />
+          )}
+          keyExtractor={item => item.id.toString()}
+          numColumns={2}
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={localStyles.listContainer}
         />
       </View>
-      <SectionTitle title={`Search results for: ${keyword}`} />
-      <FlatList
-        data={searchResults}
-        renderItem={({item}) => <MoviePoster style={{margin: 5}} item={item} />}
-        keyExtractor={item => item.id.toString()}
-        numColumns={2}
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={localStyles.listContainer}
-      />
     </SafeAreaView>
   );
 };
@@ -78,7 +82,7 @@ const Search = (): JSX.Element => {
 export default Search;
 
 export const localStyles = StyleSheet.create({
-  container: {flex: 1, backgroundColor: colors.DARK, padding: 10},
+  container: {flex: 1, backgroundColor: colors.DARK},
   listContainer: {gap: 10},
   searchContainer: {
     backgroundColor: '#383433',
@@ -86,8 +90,8 @@ export const localStyles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
-    paddingHorizontal: 10,
-    borderRadius: 20,
+    padding: 10,
+    borderRadius: 25,
   },
   searchInput: {
     flex: 1,

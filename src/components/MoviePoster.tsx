@@ -1,6 +1,12 @@
 import {useState} from 'react';
-import {TouchableOpacity, StyleSheet, View} from 'react-native';
-import FastImage from 'react-native-fast-image';
+import {
+  TouchableOpacity,
+  StyleSheet,
+  View,
+  StyleProp,
+  ImageStyle,
+} from 'react-native';
+import FastImage, {Source} from 'react-native-fast-image';
 import {IMAGE_URL} from 'src/tools/HttpHelper';
 import {MovieInterface} from 'src/types/MovieType';
 import {useNavigation} from '@react-navigation/native';
@@ -10,10 +16,15 @@ import SkeletonLoader from './SkeletonLoader';
 
 interface MoviePosterInterface {
   item: MovieInterface;
-  style?: any;
+  style?: StyleProp<ImageStyle>;
 }
 
-const PreloadImage = ({source, style}: any) => {
+interface PreloadImageInterface {
+  source?: Source;
+  style?: StyleProp<any>;
+}
+
+const PreloadImage = ({source, style}: PreloadImageInterface): JSX.Element => {
   const [loading, setLoading] = useState<boolean>(true);
 
   const handleLoad = () => {

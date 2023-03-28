@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {
   Dimensions,
   StyleSheet,
@@ -6,7 +6,9 @@ import {
   Text,
   Alert,
   FlatList,
+  TouchableOpacity,
   ScrollView,
+  Platform,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import colors from 'src/constants/colors';
@@ -15,7 +17,11 @@ import Ionicon from 'react-native-vector-icons/Ionicons';
 import fonts from 'src/constants/fonts';
 import {serializeNumber} from 'src/utils/HelperFunctions';
 import {NavigationHook} from 'src/types/NavigationType';
-import {useNavigation} from '@react-navigation/native';
+import {
+  useFocusEffect,
+  useIsFocused,
+  useNavigation,
+} from '@react-navigation/native';
 import SectionTitle from './SectionTitle';
 import {API_KEY} from 'src/constants/app';
 import {http} from 'src/tools/HttpHelper';
@@ -32,6 +38,7 @@ interface MovieCardInterface {
 const MovieCard = ({item}: MovieCardInterface): JSX.Element => {
   const toast = useToast();
   const dispatch = useDispatch();
+  const focused = useIsFocused();
   const {movies} = useSelector((state: RootState) => state.favourites);
   const {width, height} = Dimensions.get('screen');
   const navigation: NavigationHook = useNavigation();
@@ -54,7 +61,7 @@ const MovieCard = ({item}: MovieCardInterface): JSX.Element => {
   useEffect(() => {
     if (movies.find(movie => item.id === movie.id)) setMovieInFavourites(true);
     else setMovieInFavourites(false);
-  }, [movies]);
+  }, [movies, item]);
 
   return (
     <ScrollView>
@@ -66,14 +73,12 @@ const MovieCard = ({item}: MovieCardInterface): JSX.Element => {
           }}
           resizeMode="cover"
         />
-        <Ionicon
+        <TouchableOpacity
           onPress={() => navigation.goBack()}
-          style={[localStyles.actionBtn, {left: 10}]}
-          name="ios-arrow-back"
-          size={24}
-          color={colors.LIGHT}
-        />
-        <Ionicon
+          style={[localStyles.actionBtn, {left: 10}]}>
+          <Ionicon name="ios-arrow-back" size={24} color={colors.LIGHT} />
+        </TouchableOpacity>
+        <TouchableOpacity
           onPress={() => {
             if (movies.find(movie => item.id === movie.id)) {
               dispatch(addToFavourites(item));
@@ -87,13 +92,19 @@ const MovieCard = ({item}: MovieCardInterface): JSX.Element => {
               });
             }
           }}
-          style={[localStyles.actionBtn, {right: 10}]}
-          name={movieInFavourites ? 'ios-heart' : 'ios-heart-outline'}
-          size={24}
-          color={movieInFavourites ? 'red' : colors.LIGHT}
-        />
+          style={[localStyles.actionBtn, {right: 10}]}>
+          <Ionicon
+            name={movieInFavourites ? 'ios-heart' : 'ios-heart-outline'}
+            size={24}
+            color={movieInFavourites ? 'red' : colors.LIGHT}
+          />
+        </TouchableOpacity>
+
         <FastImage
-          style={[localStyles.poster, {top: height * 0.25 - 160}]}
+          style={[
+            localStyles.poster,
+            {top: height * 0.25 - (Platform.OS === 'ios' ? 120 : 160)},
+          ]}
           source={{
             uri: `https://image.tmdb.org/t/p/w500${item.poster_path}`,
           }}
@@ -121,7 +132,10 @@ const MovieCard = ({item}: MovieCardInterface): JSX.Element => {
         </View>
 
         <View
-          style={[localStyles.contentContainer, {top: height * 0.25 + 100}]}>
+          style={[
+            localStyles.contentContainer,
+            {top: height * 0.25 + (Platform.OS === 'ios' ? 140 : 100)},
+          ]}>
           <Text style={localStyles.contentTitle}>{item.title}</Text>
           <Text style={localStyles.contentOverview}>{item.overview}</Text>
           <View style={{padding: 10}}>
@@ -147,7 +161,7 @@ export const localStyles = StyleSheet.create({
   actionBtn: {
     backgroundColor: colors.TRANSPARENT,
     position: 'absolute',
-    top: 10,
+    top: Platform.OS === 'ios' ? 50 : 10,
     borderRadius: 25,
     padding: 5,
   },
