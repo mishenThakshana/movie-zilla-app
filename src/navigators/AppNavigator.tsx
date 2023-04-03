@@ -1,5 +1,5 @@
 import {useEffect} from 'react';
-import {StatusBar} from 'react-native';
+import {LogBox, StatusBar} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch} from 'react-redux';
@@ -11,6 +11,9 @@ const AppNavigator = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    LogBox.ignoreLogs([
+      'Sending `onAnimatedValueUpdate` with no listeners registered.',
+    ]);
     initializeFavourites();
   }, []);
 
