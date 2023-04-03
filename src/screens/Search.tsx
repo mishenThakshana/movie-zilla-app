@@ -66,6 +66,7 @@ const Search = (): JSX.Element => {
         </View>
         <SectionTitle title={`Search results for: ${keyword}`} />
         <FlatList
+          style={{flex: 1}}
           data={searchResults}
           renderItem={({item}) => (
             <MoviePoster style={{margin: 5}} item={item} />

@@ -60,8 +60,9 @@ const MovieCard = ({item}: MovieCardInterface): JSX.Element => {
   }, [movies, item]);
 
   return (
-    <ScrollView>
-      <View style={{height, marginBottom: 50}}>
+    <ScrollView contentContainerStyle={{justifyContent: 'space-between'}}>
+      <View
+        style={{height: height * 0.25 + (Platform.OS === 'ios' ? 140 : 180)}}>
         <FastImage
           style={{height: height * 0.25, width}}
           source={{
@@ -126,25 +127,21 @@ const MovieCard = ({item}: MovieCardInterface): JSX.Element => {
             {item.vote_average.toFixed(1)}
           </Text>
         </View>
+      </View>
 
-        <View
-          style={[
-            localStyles.contentContainer,
-            {top: height * 0.25 + (Platform.OS === 'ios' ? 140 : 100)},
-          ]}>
-          <Text style={localStyles.contentTitle}>{item.title}</Text>
-          <Text style={localStyles.contentOverview}>{item.overview}</Text>
-          <View style={{padding: 10}}>
-            <SectionTitle title="You might like" />
-            <FlatList
-              data={relatedMovies}
-              renderItem={({item}) => <MoviePoster item={item} />}
-              keyExtractor={item => item.id.toString()}
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={localStyles.listContainer}
-            />
-          </View>
+      <View style={[localStyles.contentContainer]}>
+        <Text style={localStyles.contentTitle}>{item.title}</Text>
+        <Text style={localStyles.contentOverview}>{item.overview}</Text>
+        <View style={{padding: 10}}>
+          <SectionTitle title="You might like" />
+          <FlatList
+            data={relatedMovies}
+            renderItem={({item}) => <MoviePoster item={item} />}
+            keyExtractor={item => item.id.toString()}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={localStyles.listContainer}
+          />
         </View>
       </View>
     </ScrollView>
@@ -181,7 +178,7 @@ export const localStyles = StyleSheet.create({
     color: colors.LIGHT,
     fontSize: 32,
   },
-  contentContainer: {position: 'absolute', width: '100%'},
+  contentContainer: {},
   contentTitle: {
     fontFamily: fonts.REGULAR,
     color: colors.LIGHT,
