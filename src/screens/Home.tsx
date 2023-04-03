@@ -16,50 +16,37 @@ const Home = () => {
     initializeMovies();
   }, []);
 
+  const fetchMovies = async (endpoint: string, params?: object) => {
+    try {
+      const response = await http.get(endpoint, {
+        params: {
+          api_key: TMDB_API_KEY,
+          language: 'en-US',
+          page: 1,
+          ...params,
+        },
+      });
+      return response.data.results.slice(0, 10);
+    } catch (err) {
+      Alert.alert('Error fetching movies');
+      throw err;
+    }
+  };
+
   const initializeMovies = async () => {
     try {
-      const trendingMovies = await http.get('/trending/movie/week', {
-        params: {
-          api_key: TMDB_API_KEY,
-          language: 'en-US',
-          page: 1,
-        },
-      });
+      const [trendingMovies, actionMovies, horrorMovies, fantasyMovies] =
+        await Promise.all([
+          fetchMovies('/trending/movie/week'),
+          fetchMovies('/discover/movie', {with_genres: 12}),
+          fetchMovies('/discover/movie', {with_genres: 27}),
+          fetchMovies('/discover/movie', {with_genres: 14}),
+        ]);
 
-      setTrendingMovies(trendingMovies.data.results.slice(0, 10));
-
-      const actionMovies = await http.get('/discover/movie', {
-        params: {
-          api_key: TMDB_API_KEY,
-          language: 'en-US',
-          page: 1,
-          with_genres: 12,
-        },
-      });
-
-      setActionMovies(actionMovies.data.results.slice(0, 10));
-
-      const horrorMovies = await http.get('/discover/movie', {
-        params: {
-          api_key: TMDB_API_KEY,
-          language: 'en-US',
-          page: 1,
-          with_genres: 27,
-        },
-      });
-
-      setHorrorMovies(horrorMovies.data.results.slice(0, 10));
-
-      const fantasyMovies = await http.get('/discover/movie', {
-        params: {
-          api_key: TMDB_API_KEY,
-          language: 'en-US',
-          page: 1,
-          with_genres: 14,
-        },
-      });
-
-      setFantasyMovies(fantasyMovies.data.results.slice(0, 10));
+      setTrendingMovies(trendingMovies);
+      setActionMovies(actionMovies);
+      setHorrorMovies(horrorMovies);
+      setFantasyMovies(fantasyMovies);
     } catch (err) {
       Alert.alert('Error', 'Something went wrong');
     }

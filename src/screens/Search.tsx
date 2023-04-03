@@ -8,7 +8,6 @@ import {
   Alert,
   FlatList,
   Platform,
-  ScrollView,
 } from 'react-native';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import {MoviePoster, SectionTitle} from 'src/components';
@@ -48,6 +47,7 @@ const Search = (): JSX.Element => {
     <SafeAreaView style={localStyles.container}>
       <View style={localStyles.wrapper}>
         <FlatList
+          initialNumToRender={10}
           data={searchResults}
           renderItem={({item}) => (
             <MoviePoster style={{margin: 5}} item={item} />
