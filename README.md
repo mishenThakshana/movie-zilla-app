@@ -1,6 +1,17 @@
-# Movie Zilla
+<p align="center">
+  <img width="400" height="100" src="https://user-images.githubusercontent.com/102714819/229812350-f6f05cfc-cff3-4a6c-b467-8a11cd2eb001.png">
+</p>
 
-Movie Zilla is a React Native movie app that allows users to explore, search, and add their favorite movies to a personal list. This app was developed as the final assignment for the React Native course "React Mobile App Development" (RMAD). It utilizes the TMDB API to fetch movie data and integrates Redux, a popular state management library, for seamless state handling.
+<p align="center">
+<img src="https://img.shields.io/badge/react_native-0.71.4-blue">
+<img src="https://img.shields.io/badge/axios-1.3.4-brightgreen">
+<img src="https://img.shields.io/badge/react_navigation-6.1.6-brown">
+<img src="https://img.shields.io/badge/async_storage-1.17.12-yellow">
+<img src="https://img.shields.io/badge/@reduxjs/toolkit-1.9.3-brightgreen">
+<img src="https://img.shields.io/badge/react_redux-8.0.5-purple">
+</p>
+
+<p align="center">Movie Zilla is a React Native movie app that allows users to explore, search, and add their favorite movies to a personal list. This app was developed as the final assignment for the React Native course "React Mobile App Development" (RMAD). It utilizes the TMDB API to fetch movie data and integrates Redux, a popular state management library, for seamless state handling.</p>
 
 ### Android app overview 
 
